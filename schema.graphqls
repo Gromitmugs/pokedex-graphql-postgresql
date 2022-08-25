@@ -3,8 +3,8 @@ type Pokemon {
     name: String!
     description: String!
     category: String!
-    type: String!
-    abilities: String!
+    type: [String!]!
+    abilities: [String!]!
 }
 
 type Query {
@@ -18,8 +18,8 @@ input PokemonInput {
     name: String!
     description: String!
     category: String!
-    type: String!
-    abilities: String!
+    type: [String!]!
+    abilities: [String!]!
 }
 
 type Mutation {

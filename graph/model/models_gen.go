@@ -3,10 +3,10 @@
 package model
 
 type PokemonInput struct {
-	ID          *string `json:"id"`
-	Name        string  `json:"name"`
-	Description string  `json:"description"`
-	Category    string  `json:"category"`
-	Type        string  `json:"type"`
-	Abilities   string  `json:"abilities"`
+	ID          *string  `json:"id"`
+	Name        string   `json:"name"`
+	Description string   `json:"description"`
+	Category    string   `json:"category"`
+	Type        []string `json:"type"`
+	Abilities   []string `json:"abilities"`
 }

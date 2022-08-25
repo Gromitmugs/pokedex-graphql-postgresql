@@ -19,6 +19,11 @@ func (r *mutationResolver) PokemonCreate(ctx context.Context, input model.Pokemo
 		return nil, fmt.Errorf("id must be null")
 	}
 
+	_, err_name := r.DB.FindByName(input.Name, ctx)
+	if err_name == nil {
+		return nil, fmt.Errorf("pokemon name already existed")
+	}
+
 	newPokemon := db_model.Pokemon{
 		Name:        input.Name,
 		Description: input.Description,
