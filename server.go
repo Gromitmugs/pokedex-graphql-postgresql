@@ -12,20 +12,18 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/uptrace/bun"
 	"github.com/uptrace/bun/dialect/sqlitedialect"
-	"github.com/uptrace/bun/driver/sqliteshim"
+	"github.com/uptrace/bun/driver/pgdriver"
 )
 
 const defaultPort = "8001"
 
 func main() {
 	r := chi.NewRouter()
-	sqlite, err := sql.Open(sqliteshim.ShimName, "pokedex.db")
-	if err != nil {
-		panic(err)
-	}
-	sqlite.SetMaxOpenConns(1)
 
-	db := bun.NewDB(sqlite, sqlitedialect.New())
+	dsn := "postgres://user:12345@localhost:5432/?sslmode=disable"
+	sqldb := sql.OpenDB(pgdriver.NewConnector(pgdriver.WithDSN(dsn)))
+
+	db := bun.NewDB(sqldb, sqlitedialect.New())
 
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{
 		DB: graph.Database{

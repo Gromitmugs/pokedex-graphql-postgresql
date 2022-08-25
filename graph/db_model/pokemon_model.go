@@ -5,7 +5,7 @@ import (
 )
 
 type Pokemon struct {
-	bun.BaseModel `bun:"table:Pokedex"`
+	bun.BaseModel `bun:"table:pokedex"`
 	ID            int64    `bun:",pk,autoincrement"`
 	Name          string   `json:"name"`
 	Description   string   `json:"description"`
