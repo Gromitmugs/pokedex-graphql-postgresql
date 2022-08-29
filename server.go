@@ -31,13 +31,14 @@ func main() {
 
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{
 		DB: graph.Database{
-			Posgres: db,
+			Postgres: db,
 		},
 	}}))
 
 	r.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	r.Handle("/query", srv)
 
+	log.Printf(dsn)
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", defaultPort)
 	log.Fatal(http.ListenAndServe(":"+defaultPort, r))
 }
