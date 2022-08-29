@@ -11,3 +11,9 @@ gqlgen:
 
 run:
 	go run server.go
+
+compose:
+	docker-compose -f pokedex-compose.yaml up
+
+dockerbuild:
+	docker build -t pokedex .

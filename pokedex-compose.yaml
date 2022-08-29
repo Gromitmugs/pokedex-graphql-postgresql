@@ -1,0 +1,21 @@
+version: '3'
+services:
+  pokedex:
+    image: pokedex
+    depends_on:
+      - postgresdb
+    ports:
+      - 8001:8001
+    environment:
+      - SERVICE=myPostgresDb
+    restart: always
+  postgresdb:
+    image: postgres
+    container_name: myPostgresDb
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_DB=postgresDB
+

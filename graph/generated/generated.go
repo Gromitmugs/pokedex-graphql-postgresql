@@ -14,7 +14,7 @@ import (
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/introspection"
 	dbmodel "github.com/Gromitmugs/pokedex-graphql-sqlite/graph/db_model"
-	"github.com/Gromitmugs/pokedex-graphql-sqlite/graph/model"
+	"github.com/Gromitmugs/pokedex-graphql-sqlite/graph/gqlmodel"
 	gqlparser "github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
 )
@@ -46,9 +46,9 @@ type DirectiveRoot struct {
 
 type ComplexityRoot struct {
 	Mutation struct {
-		PokemonCreate func(childComplexity int, input model.PokemonCreateInput) int
+		PokemonCreate func(childComplexity int, input gqlmodel.PokemonCreateInput) int
 		PokemonDelete func(childComplexity int, id string) int
-		PokemonUpdate func(childComplexity int, input model.PokemonUpdateInput) int
+		PokemonUpdate func(childComplexity int, input gqlmodel.PokemonUpdateInput) int
 	}
 
 	Pokemon struct {
@@ -68,8 +68,8 @@ type ComplexityRoot struct {
 }
 
 type MutationResolver interface {
-	PokemonCreate(ctx context.Context, input model.PokemonCreateInput) (*dbmodel.Pokemon, error)
-	PokemonUpdate(ctx context.Context, input model.PokemonUpdateInput) (*dbmodel.Pokemon, error)
+	PokemonCreate(ctx context.Context, input gqlmodel.PokemonCreateInput) (*dbmodel.Pokemon, error)
+	PokemonUpdate(ctx context.Context, input gqlmodel.PokemonUpdateInput) (*dbmodel.Pokemon, error)
 	PokemonDelete(ctx context.Context, id string) (bool, error)
 }
 type QueryResolver interface {
@@ -103,7 +103,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.PokemonCreate(childComplexity, args["input"].(model.PokemonCreateInput)), true
+		return e.complexity.Mutation.PokemonCreate(childComplexity, args["input"].(gqlmodel.PokemonCreateInput)), true
 
 	case "Mutation.pokemonDelete":
 		if e.complexity.Mutation.PokemonDelete == nil {
@@ -127,7 +127,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.PokemonUpdate(childComplexity, args["input"].(model.PokemonUpdateInput)), true
+		return e.complexity.Mutation.PokemonUpdate(childComplexity, args["input"].(gqlmodel.PokemonUpdateInput)), true
 
 	case "Pokemon.abilities":
 		if e.complexity.Pokemon.Abilities == nil {
@@ -320,10 +320,10 @@ var parsedSchema = gqlparser.MustLoadSchema(sources...)
 func (ec *executionContext) field_Mutation_pokemonCreate_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 model.PokemonCreateInput
+	var arg0 gqlmodel.PokemonCreateInput
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalNPokemonCreateInput2githubᚗcomᚋGromitmugsᚋpokedexᚑgraphqlᚑsqliteᚋgraphᚋmodelᚐPokemonCreateInput(ctx, tmp)
+		arg0, err = ec.unmarshalNPokemonCreateInput2githubᚗcomᚋGromitmugsᚋpokedexᚑgraphqlᚑsqliteᚋgraphᚋgqlmodelᚐPokemonCreateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -350,10 +350,10 @@ func (ec *executionContext) field_Mutation_pokemonDelete_args(ctx context.Contex
 func (ec *executionContext) field_Mutation_pokemonUpdate_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 model.PokemonUpdateInput
+	var arg0 gqlmodel.PokemonUpdateInput
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalNPokemonUpdateInput2githubᚗcomᚋGromitmugsᚋpokedexᚑgraphqlᚑsqliteᚋgraphᚋmodelᚐPokemonUpdateInput(ctx, tmp)
+		arg0, err = ec.unmarshalNPokemonUpdateInput2githubᚗcomᚋGromitmugsᚋpokedexᚑgraphqlᚑsqliteᚋgraphᚋgqlmodelᚐPokemonUpdateInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -459,7 +459,7 @@ func (ec *executionContext) _Mutation_pokemonCreate(ctx context.Context, field g
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().PokemonCreate(rctx, fc.Args["input"].(model.PokemonCreateInput))
+		return ec.resolvers.Mutation().PokemonCreate(rctx, fc.Args["input"].(gqlmodel.PokemonCreateInput))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -528,7 +528,7 @@ func (ec *executionContext) _Mutation_pokemonUpdate(ctx context.Context, field g
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().PokemonUpdate(rctx, fc.Args["input"].(model.PokemonUpdateInput))
+		return ec.resolvers.Mutation().PokemonUpdate(rctx, fc.Args["input"].(gqlmodel.PokemonUpdateInput))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -2994,8 +2994,8 @@ func (ec *executionContext) fieldContext___Type_specifiedByURL(ctx context.Conte
 
 // region    **************************** input.gotpl *****************************
 
-func (ec *executionContext) unmarshalInputPokemonCreateInput(ctx context.Context, obj interface{}) (model.PokemonCreateInput, error) {
-	var it model.PokemonCreateInput
+func (ec *executionContext) unmarshalInputPokemonCreateInput(ctx context.Context, obj interface{}) (gqlmodel.PokemonCreateInput, error) {
+	var it gqlmodel.PokemonCreateInput
 	asMap := map[string]interface{}{}
 	for k, v := range obj.(map[string]interface{}) {
 		asMap[k] = v
@@ -3062,8 +3062,8 @@ func (ec *executionContext) unmarshalInputPokemonCreateInput(ctx context.Context
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputPokemonUpdateInput(ctx context.Context, obj interface{}) (model.PokemonUpdateInput, error) {
-	var it model.PokemonUpdateInput
+func (ec *executionContext) unmarshalInputPokemonUpdateInput(ctx context.Context, obj interface{}) (gqlmodel.PokemonUpdateInput, error) {
+	var it gqlmodel.PokemonUpdateInput
 	asMap := map[string]interface{}{}
 	for k, v := range obj.(map[string]interface{}) {
 		asMap[k] = v
@@ -3784,12 +3784,12 @@ func (ec *executionContext) marshalNPokemon2ᚖgithubᚗcomᚋGromitmugsᚋpoked
 	return ec._Pokemon(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNPokemonCreateInput2githubᚗcomᚋGromitmugsᚋpokedexᚑgraphqlᚑsqliteᚋgraphᚋmodelᚐPokemonCreateInput(ctx context.Context, v interface{}) (model.PokemonCreateInput, error) {
+func (ec *executionContext) unmarshalNPokemonCreateInput2githubᚗcomᚋGromitmugsᚋpokedexᚑgraphqlᚑsqliteᚋgraphᚋgqlmodelᚐPokemonCreateInput(ctx context.Context, v interface{}) (gqlmodel.PokemonCreateInput, error) {
 	res, err := ec.unmarshalInputPokemonCreateInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNPokemonUpdateInput2githubᚗcomᚋGromitmugsᚋpokedexᚑgraphqlᚑsqliteᚋgraphᚋmodelᚐPokemonUpdateInput(ctx context.Context, v interface{}) (model.PokemonUpdateInput, error) {
+func (ec *executionContext) unmarshalNPokemonUpdateInput2githubᚗcomᚋGromitmugsᚋpokedexᚑgraphqlᚑsqliteᚋgraphᚋgqlmodelᚐPokemonUpdateInput(ctx context.Context, v interface{}) (gqlmodel.PokemonUpdateInput, error) {
 	res, err := ec.unmarshalInputPokemonUpdateInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }

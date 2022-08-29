@@ -9,11 +9,11 @@ import (
 
 	dbmodel "github.com/Gromitmugs/pokedex-graphql-sqlite/graph/db_model"
 	"github.com/Gromitmugs/pokedex-graphql-sqlite/graph/generated"
-	"github.com/Gromitmugs/pokedex-graphql-sqlite/graph/model"
+	gqlmodel "github.com/Gromitmugs/pokedex-graphql-sqlite/graph/gqlmodel"
 )
 
 // PokemonCreate is the resolver for the pokemonCreate field.
-func (r *mutationResolver) PokemonCreate(ctx context.Context, input model.PokemonCreateInput) (*dbmodel.Pokemon, error) {
+func (r *mutationResolver) PokemonCreate(ctx context.Context, input gqlmodel.PokemonCreateInput) (*dbmodel.Pokemon, error) {
 	if input.ID != nil {
 		return nil, fmt.Errorf("id must be null")
 	}
@@ -38,7 +38,7 @@ func (r *mutationResolver) PokemonCreate(ctx context.Context, input model.Pokemo
 }
 
 // PokemonUpdate is the resolver for the pokemonUpdate field.
-func (r *mutationResolver) PokemonUpdate(ctx context.Context, input model.PokemonUpdateInput) (*dbmodel.Pokemon, error) {
+func (r *mutationResolver) PokemonUpdate(ctx context.Context, input gqlmodel.PokemonUpdateInput) (*dbmodel.Pokemon, error) {
 	if input.ID == "" {
 		return nil, fmt.Errorf("id must not be null")
 	}
@@ -100,10 +100,3 @@ func (r *Resolver) Query() generated.QueryResolver { return &queryResolver{r} }
 
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
-
-// !!! WARNING !!!
-// The code below was going to be deleted when updating resolvers. It has been copied here so you have
-// one last chance to move it out of harms way if you want. There are two reasons this happens:
-//   - When renaming or deleting a resolver the old code will be put in here. You can safely delete
-//     it when you're done.
-//   - You have helper methods in this file. Move them out to keep these resolver files clean.
