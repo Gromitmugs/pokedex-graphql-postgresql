@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
@@ -19,15 +20,18 @@ const defaultPort = "8001"
 
 func main() {
 	r := chi.NewRouter()
-
-	dsn := "postgres://user:12345@localhost:5432/?sslmode=disable"
+	serviceName := "localhost"
+	if env, ok := os.LookupEnv("SERVICE"); ok {
+		serviceName = env
+	}
+	dsn := "postgres://user:12345@" + serviceName + ":5432/?sslmode=disable"
 	sqldb := sql.OpenDB(pgdriver.NewConnector(pgdriver.WithDSN(dsn)))
 
 	db := bun.NewDB(sqldb, sqlitedialect.New())
 
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{
 		DB: graph.Database{
-			SqliteDB: db,
+			Posgres: db,
 		},
 	}}))
 
