@@ -8,9 +8,9 @@ RUN go get -d -v ./...
 
 RUN go install -v ./...
 
-RUN go build -o /docker-gs-ping
+RUN go build -o /pokedex-docker
 
 EXPOSE 8001
 
-CMD [ "/docker-gs-ping" ]
+CMD [ "/pokedex-docker" ]
 

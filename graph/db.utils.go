@@ -4,10 +4,10 @@ import (
 	"strconv"
 
 	dbmodel "github.com/Gromitmugs/pokedex-graphql-sqlite/graph/db_model"
-	"github.com/Gromitmugs/pokedex-graphql-sqlite/graph/model"
+	gqlmodel "github.com/Gromitmugs/pokedex-graphql-sqlite/graph/gqlmodel"
 )
 
-func Gqlmodel2DBmodel(input model.PokemonUpdateInput) (*dbmodel.Pokemon, error) {
+func Gqlmodel2DBmodel(input gqlmodel.PokemonUpdateInput) (*dbmodel.Pokemon, error) {
 	pokemon := &dbmodel.Pokemon{}
 
 	id, err := strconv.Atoi(input.ID)
