@@ -1,4 +1,4 @@
-package db_model
+package dbmodel
 
 import (
 	"github.com/uptrace/bun"
@@ -7,9 +7,9 @@ import (
 type Pokemon struct {
 	bun.BaseModel `bun:"table:pokedex"`
 	ID            int64    `bun:",pk,autoincrement"`
-	Name          string   `json:"name"`
-	Description   string   `json:"description"`
-	Category      string   `json:"category"`
-	Type          []string `json:"type"`
-	Abilities     []string `json:"abilities"`
+	Name          string   `bun:"name,notnull"`
+	Description   string   `bun:"description,notnull"`
+	Category      string   `bun:"category,notnull"`
+	Type          []string `bun:"type,notnull"`
+	Abilities     []string `bun:"abilities,notnull"`
 }

@@ -13,7 +13,7 @@ type Query {
     pokemonByName(name: String!): Pokemon
 }
 
-input PokemonInput {
+input PokemonCreateInput {
     id: String
     name: String!
     description: String!
@@ -22,8 +22,17 @@ input PokemonInput {
     abilities: [String!]!
 }
 
+input PokemonUpdateInput {
+    id: String!
+    name: String
+    description: String
+    category: String
+    type: [String]
+    abilities: [String]
+}
+
 type Mutation {
-    pokemonCreate(input: PokemonInput!): Pokemon!
-    pokemonUpdate(input: PokemonInput!): Pokemon!
+    pokemonCreate(input: PokemonCreateInput!): Pokemon!
+    pokemonUpdate(input: PokemonUpdateInput!): Pokemon!
     pokemonDelete(id: ID!): Boolean!
 }
