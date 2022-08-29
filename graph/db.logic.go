@@ -43,15 +43,14 @@ func (db *Database) FindAllPokemon(ctx context.Context) ([]*dbmodel.Pokemon, err
 }
 
 func (db *Database) DeletePokemon(ID string, ctx context.Context) error {
-	id2, err3 := strconv.Atoi(ID)
-	if err3 != nil {
-		return err3
+	id2, err := strconv.Atoi(ID)
+	if err != nil {
+		return err
 	}
 
 	pokemon := []*dbmodel.Pokemon{{ID: int64(id2)}}
 
-	_, err := db.Postgres.NewDelete().Model(&pokemon).WherePK().Exec(ctx)
-	if err != nil {
+	if _, err = db.Postgres.NewDelete().Model(&pokemon).WherePK().Exec(ctx); err != nil {
 		return err
 	}
 	return nil
