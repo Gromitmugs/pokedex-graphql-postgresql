@@ -24,6 +24,6 @@ require (
 	github.com/agnivade/levenshtein v1.1.1 // indirect
 	github.com/go-chi/chi/v5 v5.0.7
 	github.com/uptrace/bun v1.1.7
-	github.com/uptrace/bun/dialect/sqlitedialect v1.1.7
+	github.com/uptrace/bun/dialect/pgdialect v1.1.7
 	github.com/uptrace/bun/driver/pgdriver v1.1.7
 )
