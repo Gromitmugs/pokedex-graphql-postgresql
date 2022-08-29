@@ -1,11 +1,5 @@
 version: '3'
 services:
-  pokedex:
-    image: pokedex
-    ports:
-      - 8001:8001
-    environment:
-      - SERVICE=myPostgresDb
   postgresdb:
     image: postgres
     container_name: myPostgresDb
@@ -15,3 +9,9 @@ services:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=12345
       - POSTGRES_DB=postgresDB
+  pokedex:
+    image: pokedex
+    ports:
+      - 8001:8001
+    environment:
+      - SERVICE=myPostgresDb
