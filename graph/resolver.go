@@ -1,5 +1,8 @@
 package graph
 
+import "go.opentelemetry.io/otel/trace"
+
 type Resolver struct {
-	DB Database
+	DB     Database
+	Tracer trace.Tracer
 }
